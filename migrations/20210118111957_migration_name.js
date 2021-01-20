@@ -13,10 +13,13 @@ exports.up = function(knex) {
     table.timestamp('updated_at').defaultTo(knex.fn.now());
     table.string('title').notNullable();
     table.boolean('completed').notNullable().defaultTo(false);
-    table.integer('user_id').references('id').inTable('users')
+    table.integer('user_id').unsigned().notNullable();
+    
+    
+    table.foreign('user_id').references('id').inTable('users')
   })
 };
 
 exports.down = function(knex) {
-    return knex.schema.dropTable('todos').dropTable('users')
+    return knex.schema.dropTable('users').dropTable('todos')
 };
